@@ -1,0 +1,5 @@
+# Ignore vscode configurations
+.vscode
+
+# Ignore binary files
+*.exe
