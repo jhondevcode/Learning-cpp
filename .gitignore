@@ -3,3 +3,8 @@
 
 # Ignore binary files
 *.exe
+
+# Ignore linux binaries
+*.out
+*.o
+*.a
