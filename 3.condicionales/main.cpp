@@ -18,5 +18,5 @@ int main(int argc, char const *argv[]) {
     } else {
         cout << "Eres menor de edad" << endl;
     }
-    return EXIT_SUCESS;
+    return EXIT_SUCCESS;
 }
