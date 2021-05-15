@@ -24,7 +24,7 @@ def load_comments(**kwargs):
     file.write("/*\n")
     file.write(f" * {'=' * 75}\n")
     # Project name
-    file.write(f" * Name        : {dir}\n")
+    file.write(f" * Name        : {kwargs['name']}\n")
     # Project author
     file.write(f" * Author      : {get_user_name()}\n")
     # Project version
@@ -51,7 +51,7 @@ def load_source(file):
 def initialize_source(dir: str, description: str = "undefined"):
     try:
         with open(f"{dir}/main.cpp", "w") as file:
-            load_comments(f=file, d=description)
+            load_comments(name=dir, f=file, d=description)
             load_source(file)
             clean_output()
             print("Operation successful")
