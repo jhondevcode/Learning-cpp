@@ -18,7 +18,8 @@ def clean_output():
         os.system("clear")
 
 
-def load_comments(file):
+def load_comments(**kwargs):
+    file = kwargs['f']
     # Generation of comments and descriptions
     file.write("/*\n")
     file.write(f" * {'=' * 75}\n")
@@ -29,7 +30,7 @@ def load_comments(file):
     # Project version
     file.write(f" * Version     : 1.0.0\n")
     # Project description
-    file.write(f" * Description : {description}\n")
+    file.write(f" * Description : {kwargs['d']}\n")
     # Project date
     file.write(f" * Created on  : {datetime.now()}\n")
     # Ending info
@@ -50,7 +51,7 @@ def load_source(file):
 def initialize_source(dir: str, description: str = "undefined"):
     try:
         with open(f"{dir}/main.cpp", "w") as file:
-            load_comments(file)
+            load_comments(f=file, d=description)
             load_source(file)
             clean_output()
             print("Operation successful")
