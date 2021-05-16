@@ -28,6 +28,10 @@ int main(int argc, char const *argv[]) {
     cout << "sizeof a long long   = " << sizeof ll<< " byte, or " << sizeof(ll) * 4 << " bits" << endl;
     cout << "sizeof a float       = " << sizeof f << " byte, or " << sizeof(f) * 4 << " bits" << endl;
     cout << "sizeof a double      = " << sizeof d << " byte, or " << sizeof(d) * 4 << " bits" << endl;
+
+    // The size of this type of data in a 64-bit architecture varies according to the compiler that is
+    // used, with the gnu compiler the type has a size of 16 bytes and with that of microsoft it has a
+    // size of 8 bytes.
     cout << "sizeof a long double = " << sizeof ld<< " byte, or " << sizeof(ld) * 4 << " bits" << endl;
     system("pause");
     return EXIT_SUCCESS;
