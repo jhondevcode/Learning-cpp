@@ -73,7 +73,7 @@ def create_workspace(dir: str):
         try:
             os.mkdir(dir)
         except Exception as e:
-            print("El directorio ya existe.")
+            print("Directory already exists")
 
 
 def main() -> int:
