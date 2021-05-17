@@ -28,7 +28,7 @@ EXIT_SUCCESS = 0
 EXIT_FAILED = 1
 
 
-# Funciones de uso general
+# General purpose functions
 ################################################################################
 def clean_output():
     if platform.system() == "Windows":
@@ -36,8 +36,20 @@ def clean_output():
     elif platform.system() == "Linux" or platform.system() == "Darwin":
         os.system("clear")
 
+
 def get_user_name():
     return os.environ["USERNAME"]
+
+
+def get_current_worspace():
+    return os.path.join(os.getcwd())
+
+
+def get_path_separator():
+    if platform.system() == "Windows":
+        return "/"
+    elif platform.system() == "Linux" or platform.system() == "Darwin":
+        return "\\"
 
 
 def get_arg_value(args, prefix):
@@ -51,9 +63,10 @@ def get_arg_value(args, prefix):
 
 
 class TemplateGenerator:
-    """ Usado para generar plantillas de proyectos """
+    """ Used to generate project templates """
 
     def __init__(self):
+        super(TemplateGenerator, self).__init__()
         self.__project_path = None
         self.__project_description = None
         self.__project_name = None
@@ -67,11 +80,12 @@ class TemplateGenerator:
         self.__project_description = description
 
     def __create_workspace(self):
-        if '/' in self.__project_path:
-            folders = self.__project_path.split('/')
+        path_separator = get_path_separator()
+        if path_separator in self.__project_path:
+            folders = self.__project_path.split(path_separator)
             path = ""
             for f_index in range(len(folders)):
-                path += folders[f_index] + "/"
+                path += folders[f_index] + path_separator
                 try:
                     os.mkdir(path)
                 except:
@@ -105,7 +119,7 @@ class TemplateGenerator:
     def generate(self):
         self.__create_workspace()
         try:
-            with open(f"{self.__project_path}/main.cpp", "w") as file:
+            with open(f"{self.__project_path}{get_path_separator()}main.cpp", "w") as file:
                 self.__load_comments(file)
                 self.__load_source(file)
                 clean_output()
@@ -115,10 +129,65 @@ class TemplateGenerator:
 
 
 class ProjectCompiler():
-    """ Usado para compilar proyectos generados """
+    """ Used to compile generated projects """
 
-    def __init__(self):
-        pass
+    def __init__(self, path_name =  None, exec = False):
+        super(ProjectCompiler, self)
+        self.__workspace = get_current_worspace() + get_path_separator() + path_name.replace("/", get_path_separator())
+        self.__to_execute = exec
+
+    def __check_workspace(self):
+        if os.path.exists(self.__workspace):
+            return True
+        else:
+            print(f"Directory \"{workspace}\" not found")
+            return False
+
+    def __check_source(self):
+        file_path = self.__workspace + get_path_separator() + "main.cpp"
+        if os.path.exists(file_path):
+            return True
+        else:
+            print(f"El archivo {workspace} no existe")
+            return False
+
+    def __check(self) -> bool:
+        if self.__check_workspace():
+            if self.__check_source():
+                return True
+            else:
+                return False
+        else:
+            return False
+
+    def execute(self):
+        if self.__check():
+            clean_output()
+            execution = os.system("g++ --version")
+            if execution == 0:
+                source_file = self.__workspace + get_path_separator() + "main.cpp"
+                target_file = ""
+                if platform.system() == "Windows":
+                    target_file = self.__workspace + get_path_separator() + "main.exe"
+                else:
+                    target_file = self.__workspace + get_path_separator() + "main.out"
+                execution = os.system(f"g++ {source_file} -o {target_file}")
+                if execution == 0:
+                    print("Compiling... done")
+                    if self.__to_execute:
+                        if platform.system() == "Windows":
+                            print("Running...\n")
+                            execution = os.system(target_file)
+                        else:
+                            print("Running...\n")
+                            execution = os.system(f"./{target_file}")
+                        print("\nProcess ended with exit code", execution)
+                    else:
+                        print("The compilation was successful")
+                else:
+                    print("\Oops, you seem to have trouble with your code. Fix it and compile it again")
+            else:
+                print("The c++ compiler was not detected on your path")
 
 
 def show_help():
@@ -126,8 +195,9 @@ def show_help():
     print("          [-name] project name")
     print("          [-dsc] project description")
     print("compile : use this option to compile a project")
-    print("          must indicate the project path")
-    print("          \"compile /dates/array\"")
+    print("          [-path] work path")
+    print("          [--run] to run the compiled binary")
+    print("          \"compile dates/array\"")
 
 
 def main():
@@ -136,7 +206,7 @@ def main():
         first_arg = args[1]
         if args[1] == 'new':
             path_name = get_arg_value(args, "-path=")
-            if path_name is not None:
+            if path_name is not None and path_name != "":
                 template = TemplateGenerator()
                 template.add_path(path_name)
                 description = get_arg_value(args, "-dsc=")
@@ -148,7 +218,17 @@ def main():
             else:
                 print("You must indicate a name or path")
         elif args[1] == 'compile':
-            print("In development...s")
+            path_name = get_arg_value(args, "-path=")
+            if path_name is not None and path_name != "":
+                if ":" in path_name:
+                    print("Please enter a valid route.\nThe path of the subfolders must not start with \"/\"")
+                else:
+                    to_execute = False
+                    if "--run" in args:
+                        to_execute = True
+                    ProjectCompiler(path_name, to_execute).execute()
+            else:
+                print("You must indicate a name or path")
         else:
             print("The task you entered was not recognized")
             show_help()
