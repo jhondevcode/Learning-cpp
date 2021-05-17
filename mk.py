@@ -1,3 +1,23 @@
+"""
+This python script is divided at the moment into 2 tools: generation and compilation.
+
+The generator tool works without problems on any platform, but the second tool is more
+oriented to linux platforms, that does not mean that it does not work on windows.
+
+You can run the build tool on windows by using the following tools:
+- MSYS2
+- CYGWIN
+- WSL
+- MinGW
+- or other toolkits that create a linux environment on your windows
+
+If you use CYGWIN OR MinGW, make sure you have the tools in your PATH so the
+script can work smoothly.
+
+In case you prefer to use MSYS2 or WSL, the script must be executed within the
+native terminal of the environment.
+"""
+
 import os
 import sys
 import platform
