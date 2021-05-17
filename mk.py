@@ -126,14 +126,14 @@ def main():
                     template.add_description("Undefinned")
                 template.generate()
             else:
-                print("Debe de indicar un nombre o ruta")
+                print("You must indicate a name or path")
         elif args[1] == 'compile':
             print("In development...s")
         else:
-            print("No se ha reconocido la tarea que ha ingresado")
+            print("The task you entered was not recognized")
             show_help()
     else:
-        print("Debe de indicar una tarea")
+        print("It must indicate a task")
         show_help()
 
 if __name__ == '__main__':
