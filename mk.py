@@ -72,7 +72,7 @@ class TemplateGenerator:
         self.__project_name = None
 
     def add_path(self, name: str):
-        self.__project_path = name
+        self.__project_path = get_current_worspace() + get_path_separator() + name.replace("/", get_path_separator())
         chunks = self.__project_path.split("/")
         self.__project_name = chunks[len(chunks) - 1]
 
@@ -119,7 +119,7 @@ class TemplateGenerator:
     def generate(self):
         self.__create_workspace()
         try:
-            with open(f"{self.__project_path}{get_path_separator()}main.cpp", "w") as file:
+            with open(f"{self.__project_path}/main.cpp", "w") as file:
                 self.__load_comments(file)
                 self.__load_source(file)
                 clean_output()
@@ -192,7 +192,7 @@ class ProjectCompiler():
 
 def show_help():
     print("new     : use this option to generate a project template")
-    print("          [-name] project name")
+    print("          [-path] project name")
     print("          [-dsc] project description")
     print("compile : use this option to compile a project")
     print("          [-path] work path")
