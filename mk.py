@@ -47,9 +47,9 @@ def get_current_worspace():
 
 def get_path_separator():
     if platform.system() == "Windows":
-        return "/"
-    elif platform.system() == "Linux" or platform.system() == "Darwin":
         return "\\"
+    elif platform.system() == "Linux" or platform.system() == "Darwin":
+        return "/"
 
 
 def get_arg_value(args, prefix):
@@ -140,7 +140,7 @@ class ProjectCompiler():
         if os.path.exists(self.__workspace):
             return True
         else:
-            print(f"Directory \"{workspace}\" not found")
+            print(f"Directory \"{self.__workspace}\" not found")
             return False
 
     def __check_source(self):
