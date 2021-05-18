@@ -60,7 +60,7 @@ void read_courses(student* p_student) {
         getline(cin, p_student->courses[c_courses].name);
         fflush(stdin);
 
-        cout << "Numero de notas para " << p_student->[c_courses].name << ": ";
+        cout << "Numero de notas para " << p_student->courses[c_courses].name << ": ";
         cin >> p_student->courses[c_courses].n_notes;
         fflush(stdin);
     }
