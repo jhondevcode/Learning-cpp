@@ -13,12 +13,14 @@
 
 using namespace std;
 
+// templates
 void read_students(student students[], int size);
-
 void read_courses(student*);
-
 void read_notes(course courses[], int size);
 
+/*
+ *
+ */
 int main(int argc, char const *argv[]) {
     int n_students = 0;
     cout << "Cantidad de alumnos: ";
@@ -42,6 +44,9 @@ int main(int argc, char const *argv[]) {
     return EXIT_SUCCESS;
 }
 
+/*
+ *
+ */
 void read_students(student students[], int size) {
     for (unsigned int c_estudent = 0; c_estudent < size; c_estudent++) {
         cout << "Nombre: ";
@@ -51,6 +56,9 @@ void read_students(student students[], int size) {
     }
 }
 
+/*
+ *
+ */
 void read_courses(student* p_student) {
     cout << "Numero de cursos para " << p_student->name << ": ";
     cin >> p_student->n_courses;
@@ -66,6 +74,9 @@ void read_courses(student* p_student) {
     }
 }
 
+/*
+ *
+ */
 void read_notes(course courses[], int size) {
     // for (unsigned int c_notes; c_notes < size; c_notes++) {
     //     cout << "";
