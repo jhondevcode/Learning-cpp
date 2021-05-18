@@ -33,6 +33,7 @@ int main(int argc, char const *argv[]) {
     fflush(stdin);
     cout << endl;
     people* people_pointer = &p01;
+    people_pointer->age = 25;
     cout << "People adress : " << people_pointer << endl;
     cout << "Name adress   : " << &p01.name << endl;
     cout << "Age adress    : " << &p01.age << endl;
