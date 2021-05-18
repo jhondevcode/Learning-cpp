@@ -10,7 +10,7 @@ typedef struct {
     std::string name;               // course name
     unsigned int n_notes = 0;       // number of notes you have
     unsigned int max_courses = 8;   // maximum capacity of courses
-    float notes[8] = {};            // notes store
+    double notes[8] = {};            // notes store
     double final_note;              // final course average
 } course;
 
@@ -58,6 +58,11 @@ void show_information(student* student) {
         for (unsigned int i = 0; i < student->n_courses; i++) {
             std::cout << student->name << ": " << std::endl;
             std::cout << "    " << student->courses[i].name << ": " << student->courses[i].final_note << std::endl;
+            if (student->courses[i].final_note >= 10.5) {
+                std::cout << "    Estado: aprobado" << std::endl;
+            } else {
+                std::cout << "    Estado: desaprobado" << std::endl;
+            }
         }
     }
 }

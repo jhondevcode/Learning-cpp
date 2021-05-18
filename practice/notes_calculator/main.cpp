@@ -16,7 +16,7 @@ using namespace std;
 // templates
 void read_students(student students[], int size);
 void read_courses(student*);
-void read_notes(course courses[], int size);
+void read_notes(student* p_student, course* p_course);
 
 /*
  *
@@ -29,6 +29,7 @@ int main(int argc, char const *argv[]) {
     if (n_students > 0) {
         student students[n_students] = {};
         read_students(students, n_students);
+        cout << "========================================\n" << endl;
 
         for (unsigned int i = 0; i < n_students; i++) {
             calculate_average(&students[i]);
@@ -41,6 +42,8 @@ int main(int argc, char const *argv[]) {
         cout << "No estan permitidos los numeros negativos" << endl;
     }
 
+    system("pause");
+
     return EXIT_SUCCESS;
 }
 
@@ -49,6 +52,7 @@ int main(int argc, char const *argv[]) {
  */
 void read_students(student students[], int size) {
     for (unsigned int c_estudent = 0; c_estudent < size; c_estudent++) {
+        cout << "========================================" << endl;
         cout << "Nombre: ";
         getline(cin, students[c_estudent].name);
         fflush(stdin);
@@ -60,27 +64,29 @@ void read_students(student students[], int size) {
  *
  */
 void read_courses(student* p_student) {
-    cout << "Numero de cursos para " << p_student->name << ": ";
+    cout << "[" << p_student->name << "] cantidad de cursos: ";
     cin >> p_student->n_courses;
     fflush(stdin);
     for (unsigned int c_courses; c_courses < p_student->n_courses; c_courses++) {
-        cout << "Course name: ";
+        cout << "[" << p_student->name << "] course " << c_courses + 1 <<" name: ";
         getline(cin, p_student->courses[c_courses].name);
         fflush(stdin);
 
-        cout << "Numero de notas para " << p_student->courses[c_courses].name << ": ";
+        cout << "[" << p_student->name << "] cuantas notas tiene " << p_student->courses[c_courses].name << "?: ";
         cin >> p_student->courses[c_courses].n_notes;
         fflush(stdin);
+
+        read_notes(p_student, &p_student->courses[c_courses]);
     }
 }
 
 /*
  *
  */
-void read_notes(course courses[], int size) {
-    // for (unsigned int c_notes; c_notes < size; c_notes++) {
-    //     cout << "";
-    //     cin >> courses;
-    //     fflush(stdin);
-    // }
+void read_notes(student* p_student, course* p_course) {
+    for (unsigned int n_counter = 0; n_counter < p_course->n_notes; n_counter++) {
+        cout << "[" << p_student->name << "] " << p_course->name << " nota " << n_counter + 1 << ": ";
+        cin >> p_course->notes[n_counter];
+        fflush(stdin);
+    }
 }
