@@ -185,7 +185,7 @@ class ProjectCompiler():
                     else:
                         print("The compilation was successful")
                 else:
-                    print("\Oops, you seem to have trouble with your code. Fix it and compile it again")
+                    print("\nOops, you seem to have trouble with your code. Fix it and compile it again")
             else:
                 print("The c++ compiler was not detected on your path")
 
