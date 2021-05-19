@@ -148,7 +148,7 @@ class ProjectCompiler():
         if os.path.exists(file_path):
             return True
         else:
-            print(f"El archivo {workspace} no existe")
+            print(f"File {file_path} does not exist")
             return False
 
     def __check(self) -> bool:
