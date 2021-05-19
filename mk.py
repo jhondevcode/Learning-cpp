@@ -23,7 +23,7 @@ import sys
 import platform
 from datetime import datetime
 
-
+COMPILER = "g++"
 EXIT_SUCCESS = 0
 EXIT_FAILED = 1
 
@@ -163,7 +163,7 @@ class ProjectCompiler():
     def execute(self):
         if self.__check():
             clean_output()
-            execution = os.system("g++ --version")
+            execution = os.system(f"{COMPILER} --version")
             if execution == 0:
                 source_file = self.__workspace + get_path_separator() + "main.cpp"
                 target_file = ""
@@ -171,7 +171,7 @@ class ProjectCompiler():
                     target_file = self.__workspace + get_path_separator() + "main.exe"
                 else:
                     target_file = self.__workspace + get_path_separator() + "main.out"
-                execution = os.system(f"g++ {source_file} -o {target_file}")
+                execution = os.system(f"{COMPILER} {source_file} -o {target_file}")
                 if execution == 0:
                     print("Compiling... done")
                     if self.__to_execute:
