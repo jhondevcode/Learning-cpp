@@ -24,8 +24,6 @@ import platform
 from datetime import datetime
 
 COMPILER = "g++"
-EXIT_SUCCESS = 0
-EXIT_FAILED = 1
 
 
 # General purpose functions
