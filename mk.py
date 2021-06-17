@@ -180,7 +180,7 @@ class ProjectCompiler():
                             execution = os.system(target_file)
                         else:
                             print("Running...\n")
-                            execution = os.system(f"./{target_file}")
+                            execution = os.system(f"{target_file.replace('main.out', './main.out')}")
                         print("\nProcess ended with exit code", execution)
                     else:
                         print("The compilation was successful")
