@@ -28,7 +28,7 @@ int main() {
 	course.show_message();
 	cout << "The name of course is: " << course.get_course_name() << endl;
 	cout << "Object position in memory: " << &course << endl;
-	course.n_curse();
+
 	cout << endl;
 	system("pause");
 	return EXIT_SUCCESS;
