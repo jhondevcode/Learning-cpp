@@ -20,7 +20,7 @@ native terminal of the environment.
 
 import os
 import sys
-import platform
+from platform import system
 from datetime import datetime
 
 COMPILER = "g++"
@@ -29,24 +29,27 @@ COMPILER = "g++"
 # General purpose functions
 ################################################################################
 def clean_output():
-    if platform.system() == "Windows":
+    if system() == "Windows":
         os.system("cls")
-    elif platform.system() == "Linux" or platform.system() == "Darwin":
+    elif system() == "Linux" or system() == "Darwin":
         os.system("clear")
 
 
 def get_user_name():
-    return os.environ["USERNAME"]
+    if "windows" in system().lower():
+        return os.environ["USERNAME"]
+    else:
+        return os.environ["USER"]
 
 
-def get_current_worspace():
+def get_current_workspace():
     return os.path.join(os.getcwd())
 
 
 def get_path_separator():
-    if platform.system() == "Windows":
+    if system() == "Windows":
         return "\\"
-    elif platform.system() == "Linux" or platform.system() == "Darwin":
+    elif system() == "Linux" or system() == "Darwin":
         return "/"
 
 
@@ -57,6 +60,8 @@ def get_arg_value(args, prefix):
             value = val.replace(prefix, "").replace("\"", "")
             break
     return value
+
+
 ################################################################################
 
 
@@ -70,9 +75,15 @@ class TemplateGenerator:
         self.__project_name = None
 
     def add_path(self, name: str):
-        self.__project_path = get_current_worspace() + get_path_separator() + name.replace("/", get_path_separator())
+        self.__project_path = get_current_workspace() + get_path_separator() + name.replace("/", get_path_separator())
         chunks = self.__project_path.split("/")
+        
+        print(chunks[len(chunks) - 1])
         self.__project_name = chunks[len(chunks) - 1]
+        print(self.__project_path)
+        print(self.__project_name)
+        print(chunks)
+        print(get_user_name())
 
     def add_description(self, description: str):
         self.__project_description = description
@@ -91,7 +102,7 @@ class TemplateGenerator:
         else:
             try:
                 os.mkdir(self.__project_path)
-            except Exception as e:
+            except:
                 print("Directory already exists")
 
     def __load_comments(self, file):
@@ -126,13 +137,13 @@ class TemplateGenerator:
             print(str(e))
 
 
-class ProjectCompiler():
+class ProjectCompiler:
     """ Used to compile generated projects """
 
-    def __init__(self, path_name =  None, exec = False):
+    def __init__(self, path_name=None, run=False):
         super(ProjectCompiler, self)
-        self.__workspace = get_current_worspace() + get_path_separator() + path_name.replace("/", get_path_separator())
-        self.__to_execute = exec
+        self.__workspace = get_current_workspace() + get_path_separator() + path_name.replace("/", get_path_separator())
+        self.__to_execute = run
 
     def __check_workspace(self):
         if os.path.exists(self.__workspace):
@@ -164,8 +175,7 @@ class ProjectCompiler():
             execution = os.system(f"{COMPILER} --version")
             if execution == 0:
                 source_file = self.__workspace + get_path_separator() + "main.cpp"
-                target_file = ""
-                if platform.system() == "Windows":
+                if system() == "Windows":
                     target_file = self.__workspace + get_path_separator() + "main.exe"
                 else:
                     target_file = self.__workspace + get_path_separator() + "main.out"
@@ -173,7 +183,7 @@ class ProjectCompiler():
                 if execution == 0:
                     print("Compiling... done")
                     if self.__to_execute:
-                        if platform.system() == "Windows":
+                        if system() == "Windows":
                             print("Running...\n")
                             execution = os.system(target_file)
                         else:
@@ -201,7 +211,6 @@ def show_help():
 def main():
     args = sys.argv
     if len(args) > 1:
-        first_arg = args[1]
         if args[1] == 'new':
             path_name = get_arg_value(args, "-path=")
             if path_name is not None and path_name != "":
@@ -211,7 +220,7 @@ def main():
                 if description is not None:
                     template.add_description(get_arg_value(args, "-dsc="))
                 else:
-                    template.add_description("Undefinned")
+                    template.add_description("Undefined")
                 template.generate()
             else:
                 print("You must indicate a name or path")
@@ -233,6 +242,7 @@ def main():
     else:
         print("It must indicate a task")
         show_help()
+
 
 if __name__ == '__main__':
     main()
