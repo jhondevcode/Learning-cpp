@@ -76,14 +76,9 @@ class TemplateGenerator:
 
     def add_path(self, name: str):
         self.__project_path = get_current_workspace() + get_path_separator() + name.replace("/", get_path_separator())
-        chunks = self.__project_path.split("/")
-        
+        chunks = self.__project_path.split("/")        
         print(chunks[len(chunks) - 1])
         self.__project_name = chunks[len(chunks) - 1]
-        print(self.__project_path)
-        print(self.__project_name)
-        print(chunks)
-        print(get_user_name())
 
     def add_description(self, description: str):
         self.__project_description = description
